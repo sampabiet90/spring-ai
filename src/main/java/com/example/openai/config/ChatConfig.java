@@ -30,6 +30,7 @@ public class ChatConfig
                         HR policies.
                         """)
                 .defaultUser("How can you help me ?")
+
                 .build();
 
     }
