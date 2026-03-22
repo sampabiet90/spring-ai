@@ -8,6 +8,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Configuration
 public class ChatConfig
@@ -15,23 +18,19 @@ public class ChatConfig
     @Bean
     public ChatClient chatClient(ChatClient.Builder chatClientBuilder) {
         // chat options control the output by various parameter
-        ChatOptions chatOptions=ChatOptions.builder().model("gpt-4.0-mini").maxTokens(100)
-                .temperature(0.8).build();
+        ChatOptions chatOptions = ChatOptions.builder().model("gpt-4.0-mini").maxTokens(100).temperature(0.8).build();
 
-        return chatClientBuilder
-                .defaultOptions(chatOptions)
-                .defaultAdvisors(List.of(new TokenUsageAuditAdvisor(),new SimpleLoggerAdvisor()))
-                .defaultSystem("""
+        return chatClientBuilder.defaultOptions(chatOptions).defaultAdvisors(List.of(new TokenUsageAuditAdvisor(), new SimpleLoggerAdvisor())).defaultSystem("""
                         You are an internal HR assistant. Your role is to help\s
                         employees with questions related to HR policies, such as\s
                         leave policies, working hours, benefits, and code of conduct.
                         If a user asks for help with anything outside of these topics,\s
                         kindly inform them that you can only assist with queries related to\s
                         HR policies.
-                        """)
-                .defaultUser("How can you help me ?")
+                        """).defaultUser("How can you help me ?")
 
                 .build();
 
     }
     }
+
